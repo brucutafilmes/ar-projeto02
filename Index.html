@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-ar-hit-test-component/dist/aframe-ar-hit-test-component.min.js"></script>
+</head>
+
+<body style="margin: 0; overflow: hidden;">
+
+<a-scene
+  vr-mode-ui="enabled: false"
+  embedded
+  ar-hit-test="targetEl: #reticle;"
+  xrweb="optionalFeatures: hit-test, local-floor">
+
+  <a-camera></a-camera>
+
+  <!-- mira -->
+  <a-entity id="reticle"
+            geometry="primitive: ring; radiusInner: 0.05; radiusOuter: 0.06"
+            material="color: green"
+            rotation="-90 0 0"
+            visible="false">
+  </a-entity>
+
+  <!-- imagem -->
+  <a-image id="objeto"
+           src="Imagem.png"
+           width="1"
+           height="1"
+           visible="false">
+  </a-image>
+
+</a-scene>
+
+<script>
+let placed = false;
+
+document.querySelector("a-scene").addEventListener("click", function () {
+  const reticle = document.querySelector("#reticle");
+  const objeto = document.querySelector("#objeto");
+
+  if (reticle.object3D.visible && !placed) {
+    objeto.setAttribute("position", reticle.getAttribute("position"));
+    objeto.setAttribute("visible", true);
+    placed = true;
+  }
+});
+</script>
+
+</body>
+</html>
